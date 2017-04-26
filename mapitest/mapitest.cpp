@@ -39,15 +39,22 @@ int wmain(int argc, wchar_t * args[])
 	}
 	std::wstring test = args[1];
 	std::wstring profile = args[2];
-	mapi::trace::set_listener(mapi::trace_console);
 	bool ok = false;
-	if (test == L"init-service")
+	try
 	{
-		ok = test_init(profile, mapi::init_option::service);
+		mapi::trace::set_listener(mapi::trace_console);
+		if (test == L"init-service")
+		{
+			ok = test_init(profile, mapi::init_option::service);
+		}
+		else if (test == L"init-noservice")
+		{
+			ok = test_init(profile, mapi::init_option::noservice);
+		}
 	}
-	else if (test == L"init-noservice")
+	catch (std::exception & stdex)
 	{
-		ok = test_init(profile, mapi::init_option::noservice);
+		std::cout << L"Unexpected error: " << (stdex.what() != nullptr ? stdex.what() : "n/a") << std::endl;
 	}
 	std::wcout << L"MAPI test '" << test << L"' " << (ok ?  L"succeeded" : L"failed") << L"." << std::endl;
 	return ok ? 0 : -1;
