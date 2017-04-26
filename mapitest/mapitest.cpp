@@ -13,7 +13,7 @@ bool test_logoff(const std::wstring & profile)
 		system.init(mapi::init_option::service);
 		// MAPILogonEx
 		auto session = system.logon(profile);
-		// IMAPISession->Logoff
+		// IMAPISession->Logoff, IMAPISession->Release
 		session.release();
 		// MAPIUninitialize
 		system.release();
@@ -30,7 +30,9 @@ int wmain(int argc, wchar_t * args[])
 {
 	if (argc < 3)
 	{
-		std::wcout << L"Usage: mapitest.exe [logoff] <profile>" << std::endl;
+		std::wcout << L"Usage: mapitest.exe <test> <profile>" << std::endl;
+		std::wcout << std::endl;
+		std::wcout << L"<test> := logoff" << std::endl;
 		return -1;
 	}
 	std::wstring test = args[1];
@@ -41,10 +43,7 @@ int wmain(int argc, wchar_t * args[])
 	{
 		failed = test_logoff(profile);
 	}
-	if (failed)
-	{
-		std::wcout << L"MAPI test failed!" << std::endl;
-	}
-    return 0;
+	std::wcout << L"MAPI test '" << test << L"' " << (failed ? L"failed" : L"succeeded") << L"." << std::endl;
+	return failed ? -1 : 0;
 }
 
