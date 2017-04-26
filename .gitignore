@@ -46,6 +46,14 @@ Network Trash Folder
 Temporary Items
 .apdisk
 Debug
+Release
+x64
+mapi/Debug
+mapi/Release
+mapi/x64
+mapitest/Debug
+mapitest/Release
+mapitest/x64
 .vs
 
 *.vcxproj.user
